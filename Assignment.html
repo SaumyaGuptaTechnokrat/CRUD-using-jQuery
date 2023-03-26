@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD, DELETE, EDIT</title>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />  
+
+    <script>
+        $(document).ready(function(){
+            
+            $(".Submit").click(function(e){ 
+
+                    e.preventDefault();   
+
+                    var name = $(".name").val();
+                    var email = $(".email").val();
+                    var PhoneNumber = $(".PhoneNumber").val();
+ 
+                    
+                    var All_th_details = 
+                    "<tr><td class='name'>" + name + "</td><td class='email'>" + email + "</td><td>"+PhoneNumber+
+                    "</td><td><button class='edit'>Edit</button><button class='btn-delete'>Delete</button></td></tr>";
+                    $("table tbody").append(All_th_details);
+
+                   /* if($(".name").val('') && $(".email").val('') && $(".PhoneNumber").val(''))  {
+                        alert("All the Inputs are empty");
+                    }
+                    else if($(".name").val() && $(".email").val() && $(".PhoneNumber").val()){
+                        console.log("Not empty");
+                    }*/ 
+                    //console.log(name+email);
+                    $(".name").val('');
+                    $(".email").val('');
+                    $(".PhoneNumber").val('');
+                }
+            );
+            $("body").on("click", ".btn-delete", function(){  
+                console.log("Deleted");
+        $(this).parents("td").remove();  
+    });  
+    $("table").on("click",".edit",function(){
+		 var currentRow=$(this).parents("tr");
+		 var col1=currentRow.find("td:eq(0)").html();
+		 var col2=currentRow.find("td:eq(1)").html();
+		 var col3=currentRow.find("td:eq(2)").html();
+		 var data=col1+"\n"+col2+"\n"+col3;
+         $(".name").val(col1);
+         $(".email").val(col2);
+         $(".PhoneNumber").val(col3);
+		 //alert(data);
+         console.log("hello");
+        $(this).parents("tr").find("td:eq(3)").prepend("<button class='btn-update'>Update</button><button class='btn-cancel'>Cancel</button>");
+
+        $(this).hide();  
+	});
+    $("body").on("click",".btn-cancel",function(){
+        $(".btn-update").remove();
+        $(".edit").show();
+        $(this).remove();
+    });
+
+    $("body").on("click",".btn-update",function(){
+        var name = $(".name").val();
+        var email = $(".email").val();
+        var PhoneNumber = $(".PhoneNumber").val();
+        $(this).parents("tr").find("td:eq(0)").text(name);  
+        $(this).parents("tr").find("td:eq(1)").text(email);  
+        $(this).parents("tr").find("td:eq(2)").text(PhoneNumber);
+        $('.edit').show();
+        $(this).remove();
+        $('.btn-cancel').remove();
+        $(".name").val('');
+        $(".email").val('');
+        $(".PhoneNumber").val('');
+    });
+    $(".Search").on("keyup", function() {
+    var value = $(this).val();
+
+    $("table tr").each(function(index) {
+        if (index !== 0) {
+
+            $row = $(this);
+
+            var id = $row.find("td:first").text();
+
+            if (id.indexOf(value) !== 0) {
+                $row.hide();
+            }
+            else {
+                $row.show();
+            }
+        }
+    });
+});
+    
+});
+        
+        
+        </script>
+
+</head>
+<body>
+    <form action="Submit" method="post" >
+        <div class="form-group">
+            <input class='name form-control' type="text" placeholder="Name" required="">
+        </div>
+        <div class="form-group">
+
+            <input class="email form-control" type="email" placeholder="Email" required="">
+        </div>
+        <div class="form-group">
+            
+            <input class="PhoneNumber form-control" type="number" placeholder="Phone Number" required="">
+        </div>
+
+            <input class="Submit btn btn-success " type="button" value="Submit"/>
+
+    </form>
+
+    <br>
+    <input type="search" class ="Search" placeholder="Search Name"/>
+    <button class="btn btn-success search-btn">Search</button>
+    <br/>
+
+    <h1 class="Results"></h1>
+
+
+    <br/>
+
+    <table class="table table-bordered data-table table-hover table-success">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Action</th>
+        </tr>
+    </table>
+</body>
+</html>
